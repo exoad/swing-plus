@@ -1,85 +1,39 @@
 # Swing+
 
-***Modernizing Swing's Pattern***
+A small Kotlin library that offers composable helpers for Swing to reduce repetitive code and enable a lightweight declarative style.
 
-## Motive
+This is a hobby project and not production software. It aims to make common Swing UI patterns shorter and easier to read when using Kotlin.
 
-Swing has been the go-to GUI toolkit for Java Developers for over 25+ years because it comes with the JDK. It is 
-easy to use with a plethora of components paired with an intuitive imperative design. Swing is simple to use, that 
-is what makes it fun, but with Kotlin becoming more and more popular along with the UI ecosystem shifting towards a 
-declarative doctrine, Swing shows its outdated patterns. Not only do these outdated patterns increase development 
-time, but also boilerplate and eventually becoming a productivity killer.
+Key points
+- Composable wrappers for common Swing components (buttons, labels, panels).
+- Simple layout helpers (rows, columns, scaffold-like containers).
+- Minimal, focused scope — intended as a small utility library.
 
-Swing+ shifts this productivity killing pattern to a more modern approach by using declarative syntax. 
-This 
-is done by mapping a lot of normal Swing types to composable functions similar to Jetpack Compose. At the same time,
-Swing+ introduces a lot of additional layout components to help with reducing boilerplate for common 
-layouts like rows and columns. Here are some comparisons
-
-### Comparison #1
-
-> Creating 2 buttons on a vertical flex layout.
-
-**Swing**
-
-```kotlin 
-val col = JPanel().apply {       
-    layout = BoxLayout(this, BoxLayout.Y_AXIS)      
-    add(JButton("Button 1").apply { addActionListener { print("Hello World!") } })
-    add(JButton("Button 2"))
-}
-```
-
-**Swing+**
-```kotlin 
-col {      
-    +button("Button 1") { print("Hello World!") }       
-    +button("Button 2")  
-}  
-```
-
-### Comparison #2
-
-> Making a label and button where the button increments the text on the label (counter).
-
-#### Swing
-
+Quick example
 ```kotlin
-val panel = JPanel().apply {
-    layout = BorderLayout() // not required & not counted
-    val counter = 0
-    val label = JLabel("Count: $counter")
-    add(label, BorderLayout.CENTER)
-    add(JButton("Increment").apply {
-        addActionListener {
-            label.text = "Count: ${++counter}"
-        }
-    }, BorderLayout.SOUTH)
+col {
+    +button("Click") { println("clicked") }
+    +label("Static text")
 }
 ```
 
-#### Swing+
-
-*Please note that Composable*
-
+Counter example (concise)
 ```kotlin
 val counter = remember(0)
-val counterLabel = label("Count: ${counter()}")
-counter.observe {
-    counterLabel.text = "Count: ${counter()}"
-}
+val label = label("Count: ${counter()}")
+counter.observe { label.text = "Count: ${counter()}" }
 +scaffold(
-    center = {
-        +counterLabel
-    },
-    south = {
-        +button("Increment") {
-            counter(counter() + 1)
-        }
-    }
+    center = { +label },
+    south = { +button("Inc") { counter(counter() + 1) } }
 )
 ```
 
+Build and run
+- Requires JDK 17 (set in Gradle toolchain).
+- Build with Gradle: `./gradlew build` (on Windows use `./gradlew.bat build`).
 
+Contributing
+- Issues and pull requests are welcome. Keep changes small and focused.
 
-
+License
+See `LICENSE.txt` in the repository.
