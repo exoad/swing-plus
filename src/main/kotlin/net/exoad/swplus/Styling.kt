@@ -5,23 +5,19 @@ import java.awt.Component
 import javax.swing.JComponent
 import javax.swing.border.Border
 
-fun color(r: Int, g: Int, b: Int, a: Int = 255): Color
-{
+fun color(r: Int, g: Int, b: Int, a: Int = 255): Color {
     return Color(r, g, b, a)
 }
 
-fun color(r: Float, g: Float, b: Float, a: Float = 1.0F): Color
-{
+fun color(r: Float, g: Float, b: Float, a: Float = 1.0F): Color {
     return Color(r, g, b, a)
 }
 
-fun color(rgb: Int): Color
-{
+fun color(rgb: Int): Color {
     return Color(rgb)
 }
 
-class Modifier
-{
+class Modifier {
     var padding: Border? = null
     var size: Dim? = null
     var tooltip: String? = null
@@ -37,10 +33,8 @@ class Modifier
     var alignmentY: Alignment? = null
 }
 
-fun Component.applyModifier(modifier: Modifier?)
-{
-    if(this is JComponent && modifier != null)
-    {
+fun Component.applyModifier(modifier: Modifier?) {
+    if (this is JComponent && modifier != null) {
         modifier.padding?.let { border = it }
         modifier.size?.let {
             size = it

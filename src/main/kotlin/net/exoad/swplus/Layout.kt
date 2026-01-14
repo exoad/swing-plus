@@ -1,19 +1,14 @@
 package net.exoad.swplus
 
 import java.awt.BorderLayout
-import java.awt.Component.BOTTOM_ALIGNMENT
-import java.awt.Component.CENTER_ALIGNMENT
-import java.awt.Component.LEFT_ALIGNMENT
-import java.awt.Component.RIGHT_ALIGNMENT
-import java.awt.Component.TOP_ALIGNMENT
+import java.awt.Component.*
 import java.awt.GridLayout
 import java.awt.LayoutManager
 import javax.swing.Box.createHorizontalStrut
 import javax.swing.Box.createVerticalStrut
 import javax.swing.JPanel
 
-enum class Alignment(val componentValue: Float)
-{
+enum class Alignment(val componentValue: Float) {
     TOP(TOP_ALIGNMENT),
     BOTTOM(BOTTOM_ALIGNMENT),
     CENTER(CENTER_ALIGNMENT),
@@ -28,8 +23,7 @@ fun grid(
     verticalGap: Int = 4,
     modifier: Modifier? = null,
     content: MultiChildrenScope.() -> Unit,
-): JPanel
-{
+): JPanel {
     val scope = MultiChildrenScope()
     scope.content()
     return JPanel().apply {
@@ -46,8 +40,7 @@ fun scaffold(
     south: (SingleChildScope.() -> Unit)? = null,
     west: (SingleChildScope.() -> Unit)? = null,
     east: (SingleChildScope.() -> Unit)? = null,
-): JPanel
-{
+): JPanel {
     return JPanel(BorderLayout()).apply {
         north?.let {
             val scope = SingleChildScope()
@@ -82,24 +75,19 @@ fun column(
     modifier: Modifier? = null,
     spacing: Int = 0,
     content: MultiChildrenScope.() -> Unit,
-): JPanel
-{
+): JPanel {
     val scope = MultiChildrenScope()
     scope.content()
     return JPanel().apply {
         this.layout = colLayout(this)
-        if(spacing > 0)
-        {
+        if (spacing > 0) {
             scope.children.forEachIndexed { index, component ->
                 add(component)
-                if(index < scope.children.size - 1)
-                {
+                if (index < scope.children.size - 1) {
                     add(createVerticalStrut(spacing))
                 }
             }
-        }
-        else
-        {
+        } else {
             scope.children.forEach { add(it) }
         }
         applyModifier(modifier)
@@ -110,24 +98,19 @@ fun row(
     modifier: Modifier? = null,
     spacing: Int = 0,
     content: MultiChildrenScope.() -> Unit,
-): JPanel
-{
+): JPanel {
     val scope = MultiChildrenScope()
     scope.content()
     return JPanel().apply {
         this.layout = rowLayout(this)
-        if(spacing > 0)
-        {
+        if (spacing > 0) {
             scope.children.forEachIndexed { index, component ->
                 add(component)
-                if(index < scope.children.size - 1)
-                {
+                if (index < scope.children.size - 1) {
                     add(createHorizontalStrut(spacing))
                 }
             }
-        }
-        else
-        {
+        } else {
             scope.children.forEach { add(it) }
         }
         applyModifier(modifier)
@@ -138,13 +121,11 @@ fun panel(
     modifier: Modifier? = null,
     layout: LayoutManager? = null,
     content: SingleChildScope.() -> Unit = {},
-): JPanel
-{
+): JPanel {
     val scope = SingleChildScope()
     scope.content()
     return JPanel().apply {
-        if(layout != null)
-        {
+        if (layout != null) {
             this.layout = layout
         }
         scope.child?.let { this.add(it) }

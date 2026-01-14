@@ -6,21 +6,18 @@ import net.exoad.swplus.svg
 import java.util.concurrent.ConcurrentHashMap
 import javax.swing.Icon
 
-object MaterialIcons
-{
+object MaterialIcons {
     private val iconCache = ConcurrentHashMap<String, Icon>()
     private const val BASE_PATH = "MaterialIcons"
 
     private data class IconDefinition(
         private val rawFileName: String,
         val defaultSize: Dim = Dim(24, 24),
-    )
-    {
+    ) {
         val path get() = "$BASE_PATH/$rawFileName.svg"
     }
 
-    private fun i(name: String): Pair<String, IconDefinition>
-    {
+    private fun i(name: String): Pair<String, IconDefinition> {
         return name to IconDefinition(name)
     }
 
@@ -74,10 +71,8 @@ object MaterialIcons
     fun person(size: Dim? = null): Icon = getIcon("person", size)
 
     // == utility functions ==
-    object I
-    {
-        fun getIcon(name: String, size: Dim? = null): Icon
-        {
+    object I {
+        fun getIcon(name: String, size: Dim? = null): Icon {
             requireNotNull(iconDefinitions[name])
             val iconDef = iconDefinitions[name]!!
             val actualSize = size ?: iconDef.defaultSize
@@ -90,8 +85,7 @@ object MaterialIcons
 
         val getAvailableIcons get(): Set<String> = iconDefinitions.keys
 
-        fun clearCache()
-        {
+        fun clearCache() {
             iconCache.clear()
         }
     }
